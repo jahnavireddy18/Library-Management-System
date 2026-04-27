@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Landing from './pages/Landing';
@@ -18,6 +19,14 @@ function ProtectedRoute({ children, allowedRoles }) {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Load voice assistant script
+    const script = document.createElement('script');
+    script.src = '/assets/js/voice-assistant.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
