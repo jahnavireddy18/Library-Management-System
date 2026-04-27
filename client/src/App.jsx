@@ -22,7 +22,7 @@ export default function App() {
   useEffect(() => {
     // Load voice assistant script
     const script = document.createElement('script');
-    script.src = '/assets/js/voice-assistant.js';
+    script.src = '/voice-assistant.js';
     script.async = true;
     document.body.appendChild(script);
   }, []);
