@@ -1,0 +1,102 @@
+/* Dashboard Sections */
+.dashboard-section {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--slate-100);
+  margin-bottom: 32px;
+}
+.dashboard-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--slate-800);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dashboard-section h2 i { color: var(--primary-500); }
+
+/* Departments Grid */
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.dept-card {
+  padding: 32px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+.dept-card:hover {
+  transform: translateY(-6px);
+  background: #fff;
+  border-color: var(--primary-300);
+  box-shadow: var(--shadow-md);
+}
+.dept-card i {
+  font-size: 40px;
+  color: var(--primary-500);
+  margin-bottom: 16px;
+  transition: var(--transition-base);
+}
+.dept-card:hover i { transform: scale(1.1); color: var(--primary-600); }
+.dept-card h3 {
+  font-weight: 700;
+  color: var(--slate-800);
+  font-size: 16px;
+}
+
+/* History List */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.history-item {
+  padding: 14px 20px;
+  background: var(--slate-50);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-500);
+  font-size: 14px;
+  color: var(--slate-700);
+  font-weight: 500;
+}
+.empty-state {
+  text-align: center;
+  color: var(--slate-400);
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Controls */
+.controls-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.controls-bar .input { width: 280px; max-width: 100%; }
+.controls-bar select { width: 200px; max-width: 100%; }
+
+/* Table overrides */
+.styled-table .status-avail { color: #16a34a; font-weight: 600; }
+.styled-table .status-unavail { color: #dc2626; font-weight: 600; }
+.styled-table td button { margin: 0 4px; }
+.btn-disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Message / Notification Area */
+.msg-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+}

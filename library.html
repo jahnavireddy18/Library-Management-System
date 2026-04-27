@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Users - Smart Library</title>
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/library.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+</head>
+
+<body>
+
+<!-- Back Button Topbar -->
+<div style="padding: 24px 32px 0;">
+  <a href="admin_dashboard.html" class="btn-secondary btn-sm" style="display:inline-flex;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+</div>
+
+<main class="layout-main" style="margin-left:0; min-height:auto;">
+  
+  <header class="library-header animate-fadeInUp">
+    <div>
+      <h1><i class="fas fa-users-cog"></i> User Management</h1>
+      <p style="color:var(--primary-100); margin-top:4px;">Manage library access for students, teachers, and staff.</p>
+    </div>
+    
+    <div class="stat-pill-container">
+      <div class="stat-pill"><i class="fas fa-users"></i> Total: <span id="totalTxt">0</span></div>
+      <div class="stat-pill"><i class="fas fa-building"></i> Depts: <span id="deptTxt">0</span></div>
+      <div class="stat-pill"><i class="fas fa-user-graduate"></i> Students: <span id="studTxt">0</span></div>
+      <div class="stat-pill"><i class="fas fa-chalkboard-teacher"></i> Teachers: <span id="teachTxt">0</span></div>
+    </div>
+  </header>
+
+  <section class="table-panel animate-fadeInUp" style="animation-delay: 0.1s;">
+    <div class="table-controls">
+      <div class="control-group">
+        <div style="position:relative;">
+          <i class="fas fa-search" style="position:absolute;left:14px;top:13px;color:var(--slate-400);"></i>
+          <input type="text" id="searchInput" class="input" placeholder="Search users by name..." style="padding-left:40px; width:280px;" onkeyup="searchUsers()">
+        </div>
+        
+        <select class="input" id="roleFilter" onchange="applyFilters()" style="width:180px;">
+          <option value="">All Roles</option>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Librarian">Librarian</option>
+        </select>
+        
+        <select class="input" id="sortFilter" onchange="applyFilters()" style="width:160px;">
+          <option value="">Sort By</option>
+          <option value="az">Name (A-Z)</option>
+          <option value="za">Name (Z-A)</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" onclick="openModal('add')"><i class="fas fa-user-plus"></i> Add New User</button>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="styled-table" id="userTable">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Full Name</th>
+            <th>Role</th>
+            <th>Year/Designation</th>
+            <th>Department</th>
+            <th style="text-align:center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic Content -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- User Modal -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal-box" style="width:550px;">
+    <h3 id="modalTitle"><i class="fas fa-user-plus" style="color:var(--primary-500);margin-right:8px;"></i> Add New User</h3>
+    <input type="hidden" id="editIndex">
+    
+    <div class="modal-grid">
+      <div>
+        <label class="form-label">User ID (Roll No / Emp ID)</label>
+        <input type="text" class="input" id="uid" placeholder="eg. 101">
+      </div>
+      <div>
+        <label class="form-label">Role</label>
+        <select class="input" id="urole">
+          <option>Student</option>
+          <option>Teacher</option>
+          <option>Librarian</option>
+        </select>
+      </div>
+      
+      <div class="full-col">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="input" id="uname" placeholder="John Doe">
+      </div>
+      
+      <div>
+        <label class="form-label">Department / Branch</label>
+        <select class="input" id="udept">
+          <option>CSE</option>
+          <option>ECE</option>
+          <option>EEE</option>
+          <option>MECH</option>
+          <option>CIVIL</option>
+          <option>IT</option>
+          <option>AI</option>
+          <option>LIBRARY</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Year / Level</label>
+        <input type="text" class="input" id="uyear" placeholder="e.g. 2nd Year / Senior">
+      </div>
+    </div>
+    
+    <div style="display:flex;gap:12px;margin-top:24px;">
+      <button class="btn-secondary" style="flex:1;" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" style="flex:1;" onclick="saveUser()"><i class="fas fa-save"></i> Save User</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/api-config.js"></script>
+<script src="assets/js/library.js"></script>
+
+<script src="assets/js/voice-assistant.js"></script>
+</body>
+</html>

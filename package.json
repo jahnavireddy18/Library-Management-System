@@ -1,0 +1,13 @@
+{
+  "name": "smart-library-management-system",
+  "version": "1.0.0",
+  "description": "Smart Library Management System",
+  "scripts": {
+    "start": "node start.js",
+    "server": "npm start --prefix backend",
+    "client": "npm run dev --prefix client"
+  },
+  "dependencies": {
+    "mongodb": "^7.2.0"
+  }
+}

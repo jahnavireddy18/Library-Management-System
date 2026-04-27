@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Smart Library System</title>
+<meta name="description" content="Choose your role and login to the Smart Library Management System.">
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="stylesheet" href="assets/css/role.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+</head>
+
+<body>
+
+<div class="page-container">
+  <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+
+  <h1 class="page-title">Select Your <span class="highlight">Role</span></h1>
+  <p class="page-sub">Choose your role to access the library system</p>
+
+  <div class="roles-grid">
+    <div class="role-card" onclick="window.location.href='login.html'">
+      <div class="role-icon"><i class="fas fa-user-graduate"></i></div>
+      <h3>Student</h3>
+      <div class="card-btn"><i class="fas fa-sign-in-alt"></i> Login</div>
+    </div>
+
+    <div class="role-card" onclick="window.location.href='login.html'">
+      <div class="role-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+      <h3>Teacher</h3>
+      <div class="card-btn"><i class="fas fa-sign-in-alt"></i> Login</div>
+    </div>
+
+    <div class="role-card" onclick="window.location.href='login.html'">
+      <div class="role-icon"><i class="fas fa-book-reader"></i></div>
+      <h3>Librarian</h3>
+      <div class="card-btn"><i class="fas fa-sign-in-alt"></i> Login</div>
+    </div>
+
+    <div class="role-card" onclick="window.location.href='login.html'">
+      <div class="role-icon"><i class="fas fa-user-shield"></i></div>
+      <h3>Admin</h3>
+      <div class="card-btn"><i class="fas fa-sign-in-alt"></i> Login</div>
+    </div>
+  </div>
+</div>
+
+<!-- Loader -->
+<div class="loader-screen" id="loader">
+  <h2 id="welcomeText">Welcome...</h2>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressBar"></div>
+  </div>
+</div>
+
+<script src="assets/js/role.js"></script>
+
+<script src="assets/js/voice-assistant.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Backup - Smart Library</title>
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/backup.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+</head>
+<body>
+
+<div style="padding: 24px 32px 0;">
+  <a href="admin_dashboard.html" class="btn-secondary btn-sm" style="display:inline-flex;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+</div>
+
+<main class="layout-main" style="margin-left:0; min-height:auto;">
+  
+  <header class="backup-header animate-fadeInUp">
+    <div>
+      <h1><i class="fas fa-server"></i> System Backup & Restore</h1>
+      <p style="color:var(--slate-300); margin-top:4px;">Safeguard library data, settings, and inventory records.</p>
+    </div>
+  </header>
+
+  <div class="backup-grid animate-fadeInUp" style="animation-delay: 0.1s;">
+    
+    <div class="backup-panel">
+      <i class="fas fa-cloud-upload-alt icon-backup"></i>
+      <h3>Create Backup</h3>
+      <p>Securely save all current database entries including Users, Book Inventory, Fine Records, and System Configs to local storage/cloud.</p>
+      
+      <button class="btn-primary" style="width:100%;" onclick="startProcess('backup')">
+        <i class="fas fa-download"></i> Generate Backup File
+      </button>
+
+      <div class="backup-loader" id="loader-backup">
+        <div class="spinner"></div>
+        <span style="font-size:12px;color:var(--slate-500);">Compressing records...</span>
+      </div>
+      <div class="msg-success" id="msg-backup"><i class="fas fa-check-circle"></i> Backup generated successfully!</div>
+    </div>
+
+    <div class="backup-panel">
+      <i class="fas fa-sync-alt icon-restore"></i>
+      <h3>Restore Database</h3>
+      <p>Revert current database entries to a previously saved state. Warning: This action will overwrite all current system data.</p>
+      
+      <button class="btn-accent" style="width:100%;" onclick="startProcess('restore')">
+        <i class="fas fa-upload"></i> Restore from File
+      </button>
+
+      <div class="backup-loader" id="loader-restore">
+        <div class="spinner" style="border-top-color:var(--accent-500);"></div>
+        <span style="font-size:12px;color:var(--slate-500);">Restoring data...</span>
+      </div>
+      <div class="msg-success" id="msg-restore"><i class="fas fa-check-circle"></i> Database restored!</div>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="assets/js/backup.js"></script>
+
+<script src="assets/js/voice-assistant.js"></script>
+</body>
+</html>

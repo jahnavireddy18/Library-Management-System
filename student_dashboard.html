@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - Smart Library</title>
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/student_dashboard.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="layout-sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">📚</span>
+    <span>Student Portal</span>
+  </div>
+  <nav>
+    <a href="#" class="nav-item active" onclick="showSection('dashboard')"><i class="fas fa-home"></i><span>Dashboard</span></a>
+    <a href="#" class="nav-item" onclick="showSection('books')"><i class="fas fa-book"></i><span>Browse Books</span></a>
+    <a href="#" class="nav-item" onclick="showSection('borrowed')"><i class="fas fa-hand-holding"></i><span>My Books</span></a>
+    <a href="#" class="nav-item" onclick="showSection('request')"><i class="fas fa-paper-plane"></i><span>Request Book</span></a>
+    <a href="#" class="nav-item" onclick="showSection('help')"><i class="fas fa-question-circle"></i><span>Help Center</span></a>
+    <a href="#" onclick="logout()" class="nav-item" style="margin-top:auto;"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="layout-main" id="main">
+
+  <div class="topbar">
+    <div class="search-container">
+      <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <input type="text" class="input" id="searchInput" placeholder="Search books by title, author, ISBN..." style="width:320px;" onkeyup="searchBooks()">
+    </div>
+
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div style="position:relative;cursor:pointer;" onclick="toggleNotify()">
+        <i class="fas fa-bell" style="font-size:20px;color:var(--slate-500);"></i>
+        <span class="badge badge-danger" id="notifyCount" style="position:absolute;top:-8px;right:-8px;padding:2px 5px;font-size:10px;">0</span>
+        <div class="notify-dropdown" id="notifyBox" style="display:none;">
+          <div class="notify-header">Notifications</div>
+          <div id="notifyList"></div>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:600;color:var(--slate-800);" id="pname">Student</div>
+        <div style="font-size:12px;color:var(--slate-500);" id="pemail">student@vemu.edu</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div id="dashboardSection">
+    <div class="stats-grid">
+      <div class="card stat-card">
+        <div class="stat-card-header">
+          <h3>Available Books</h3>
+          <div class="stat-icon stat-primary"><i class="fas fa-book-open"></i></div>
+        </div>
+        <h1 id="totalBooks">0</h1>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-card-header">
+          <h3>My Borrowed</h3>
+          <div class="stat-icon stat-warning"><i class="fas fa-hand-holding"></i></div>
+        </div>
+        <h1 id="borrowedBooksCount">0</h1>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-card-header">
+          <h3>Categories</h3>
+          <div class="stat-icon stat-accent"><i class="fas fa-tags"></i></div>
+        </div>
+        <h1 id="categories">0</h1>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-card-header">
+          <h3>My Fines</h3>
+          <div class="stat-icon stat-success"><i class="fas fa-rupee-sign"></i></div>
+        </div>
+        <h1 id="finesAmount">₹0</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Books Browse Section -->
+  <div id="booksSection">
+    <h2 style="margin-bottom:20px;"><i class="fas fa-book"></i> Browse Library Books</h2>
+    <div class="books-grid" id="bookContainer">
+      <p>Loading books...</p>
+    </div>
+  </div>
+
+  <!-- Borrowed Books Section -->
+  <div id="borrowedSection" style="display:none;">
+    <h2 style="margin-bottom:20px;"><i class="fas fa-hand-holding"></i> My Borrowed Books</h2>
+    <div id="borrowedContainer">
+      <p>Loading your borrowed books...</p>
+    </div>
+  </div>
+
+  <!-- Request Book Section -->
+  <div id="requestSection" style="display:none;">
+    <div class="section-panel">
+      <h3><i class="fas fa-paper-plane"></i> Request a Book</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+        <div>
+          <label class="form-label">Book Title</label>
+          <input type="text" class="input" id="reqBook" placeholder="e.g. Clean Code">
+        </div>
+        <div>
+          <label class="form-label">Author</label>
+          <input type="text" class="input" id="reqAuthor" placeholder="e.g. Robert C. Martin">
+        </div>
+      </div>
+      <button class="btn-primary" style="margin-top:16px;" onclick="sendRequest()"><i class="fas fa-paper-plane"></i> Send Request</button>
+    </div>
+  </div>
+
+  <!-- Help Section -->
+  <div id="helpSection" style="display:none;">
+    <div class="section-panel">
+      <h3><i class="fas fa-question-circle"></i> Help Center</h3>
+      <textarea class="input" id="helpMsg" rows="4" placeholder="Describe your issue or question..."></textarea>
+      <button class="btn-primary" style="margin-top:16px;" onclick="sendHelp()"><i class="fas fa-paper-plane"></i> Send Message</button>
+    </div>
+    <div class="section-panel" style="margin-top:20px;">
+      <h3><i class="fas fa-star"></i> Feedback</h3>
+      <textarea class="input" id="feedMsg" rows="4" placeholder="Share your feedback about the library..."></textarea>
+      <button class="btn-accent" style="margin-top:16px;" onclick="sendFeedback()"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
+    </div>
+  </div>
+
+  <div class="footer">&copy; 2026 Student Portal - Smart Library Management System</div>
+
+</main>
+
+<script src="assets/js/api-config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  // Check authentication and role on page load
+  if (!checkRole('student')) {
+    // checkRole will handle redirection if authentication fails
+  }
+</script>
+<script src="assets/js/student_dashboard.js"></script>
+<script src="assets/js/voice-assistant.js"></script>
+</body>
+</html>

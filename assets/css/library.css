@@ -1,0 +1,78 @@
+/* Header override */
+.library-header {
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-500));
+  padding: 32px;
+  color: #fff;
+  border-radius: var(--radius-lg);
+  margin-bottom: 32px;
+  box-shadow: 0 10px 25px rgba(99,102,241,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.library-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Stat pills */
+.stat-pill-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stat-pill {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-weight: 600;
+  font-size: 14px;
+}
+.stat-pill i { color: var(--accent-300); }
+
+/* Main Table Container */
+.table-panel {
+  background: var(--surface-card);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--slate-100);
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.control-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.badge-role-Student   { background: #e0e7ff; color: #3730a3; }
+.badge-role-Teacher   { background: #dcfce7; color: #166534; }
+.badge-role-Librarian { background: #fef3c7; color: #92400e; }
+
+/* Modal tweaks */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.modal-grid .full-col { grid-column: 1 / -1; }
+.form-label {
+  display: block; font-size: 13px; font-weight: 600; color: var(--slate-600); margin-bottom: 6px;
+}
