@@ -97,4 +97,33 @@ router.post('/login', [
   }
 });
 
+// Seed users endpoint (for testing/setup)
+router.post('/seed', async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    
+    if (userCount > 0) {
+      return res.status(400).json({ msg: 'Users already exist' });
+    }
+
+    const defaultUsers = [
+      { name: 'Admin User', email: 'admin@vemu.edu', password: 'admin123', role: 'admin', department: 'IT' },
+      { name: 'Librarian User', email: 'librarian@vemu.edu', password: 'lib123', role: 'librarian', department: 'Library' },
+      { name: 'John Student', email: 'john.student@vemu.edu', password: 'student123', role: 'student', enrollmentNumber: 'CS2024001', department: 'Computer Science' },
+      { name: 'Jane Teacher', email: 'jane.teacher@vemu.edu', password: 'teacher123', role: 'teacher', department: 'Computer Science' }
+    ];
+
+    for (let user of defaultUsers) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+
+    const result = await User.insertMany(defaultUsers);
+    res.json({ msg: 'Users seeded successfully', count: result.length });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
