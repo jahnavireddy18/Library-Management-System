@@ -27,8 +27,14 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/smartlibr
 // Auto-seed function
 async function seedDefaultUsers() {
   try {
+    // Wait a bit for mongoose to be ready
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    console.log('🌱 Starting seed check...');
     const User = require('./models/User');
+    
     const userCount = await User.countDocuments();
+    console.log(`📊 Current users in database: ${userCount}`);
     
     if (userCount === 0) {
       console.log('🌱 Seeding default users...');
@@ -44,12 +50,16 @@ async function seedDefaultUsers() {
         user.password = await bcryptjs.hash(user.password, salt);
       }
 
-      await User.insertMany(defaultUsers);
+      const result = await User.insertMany(defaultUsers);
       console.log('✅ Default users created successfully!');
-      console.log('Login with: admin@vemu.edu / admin123');
+      console.log('📝 Login with: admin@vemu.edu / admin123');
+      console.log(`👥 Created ${result.length} users`);
+    } else {
+      console.log('✅ Users already exist in database, skipping seed');
     }
   } catch (err) {
     console.error('❌ Seeding error:', err.message);
+    console.error('Stack:', err.stack);
   }
 }
 
