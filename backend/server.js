@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const bcryptjs = require('bcryptjs');
 require('dotenv').config();
 
 const app = express();
@@ -16,8 +17,41 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/smartlibr
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('✅ MongoDB connected'))
+.then(() => {
+  console.log('✅ MongoDB connected');
+  // Auto-seed users if they don't exist
+  seedDefaultUsers();
+})
 .catch(err => console.log('❌ MongoDB connection error:', err.message));
+
+// Auto-seed function
+async function seedDefaultUsers() {
+  try {
+    const User = require('./models/User');
+    const userCount = await User.countDocuments();
+    
+    if (userCount === 0) {
+      console.log('🌱 Seeding default users...');
+      const defaultUsers = [
+        { name: 'Admin User', email: 'admin@vemu.edu', password: 'admin123', role: 'admin', department: 'IT' },
+        { name: 'Librarian User', email: 'librarian@vemu.edu', password: 'lib123', role: 'librarian', department: 'Library' },
+        { name: 'John Student', email: 'john.student@vemu.edu', password: 'student123', role: 'student', enrollmentNumber: 'CS2024001', department: 'Computer Science' },
+        { name: 'Jane Teacher', email: 'jane.teacher@vemu.edu', password: 'teacher123', role: 'teacher', department: 'Computer Science' }
+      ];
+
+      for (let user of defaultUsers) {
+        const salt = await bcryptjs.genSalt(10);
+        user.password = await bcryptjs.hash(user.password, salt);
+      }
+
+      await User.insertMany(defaultUsers);
+      console.log('✅ Default users created successfully!');
+      console.log('Login with: admin@vemu.edu / admin123');
+    }
+  } catch (err) {
+    console.error('❌ Seeding error:', err.message);
+  }
+}
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
