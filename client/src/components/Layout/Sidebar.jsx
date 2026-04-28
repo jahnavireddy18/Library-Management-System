@@ -1,16 +1,35 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FaBars, FaSignOutAlt } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Sidebar.css';
 
 export default function Sidebar({ brand, brandIcon, links }) {
   const { logout, user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Handle responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) setMobileOpen(false);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close mobile menu on link click
+  const handleLinkClick = () => {
+    if (isMobile) setMobileOpen(false);
+  };
 
   return (
     <>
-      <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+      <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${isMobile && mobileOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-brand">
           <span className="brand-icon">{brandIcon}</span>
           <span className="brand-text">{brand}</span>
@@ -21,13 +40,14 @@ export default function Sidebar({ brand, brandIcon, links }) {
               key={link.to}
               to={link.to}
               end={link.end}
+              onClick={handleLinkClick}
               className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
             >
               {link.icon}
               <span>{link.label}</span>
             </NavLink>
           ))}
-          <button className="nav-item logout-btn" onClick={logout}>
+          <button className="nav-item logout-btn" onClick={() => { handleLinkClick(); logout(); }}>
             <FaSignOutAlt />
             <span>Logout</span>
           </button>
@@ -42,9 +62,10 @@ export default function Sidebar({ brand, brandIcon, links }) {
           </div>
         )}
       </aside>
-      <button className="hamburger" onClick={() => setCollapsed(!collapsed)}>
+      <button className="hamburger" onClick={() => isMobile ? setMobileOpen(!mobileOpen) : setCollapsed(!collapsed)}>
         <FaBars />
       </button>
+      {isMobile && <div className={`overlay-mobile ${mobileOpen ? 'active' : ''}`} onClick={() => setMobileOpen(false)} />}
     </>
   );
 }

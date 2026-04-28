@@ -160,14 +160,45 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    width: 70px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
   }
+  
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
   .sidebar .brand-text,
   .sidebar .nav-item span,
   .sidebar .user-info {
-    display: none;
+    display: block;
   }
+  
   .hamburger {
-    left: 78px;
+    left: 12px !important;
+    display: flex !important;
+  }
+  
+  .overlay-mobile {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  
+  .overlay-mobile.active {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
