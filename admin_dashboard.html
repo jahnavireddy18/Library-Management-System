@@ -20,8 +20,8 @@
   </div>
   <nav>
     <a href="admin_dashboard.html" class="nav-item active"><i class="fas fa-home"></i><span>Dashboard</span></a>
-    <a href="library.html" class="nav-item"><i class="fas fa-users"></i><span>Users</span></a>
-    <a href="library.html" class="nav-item"><i class="fas fa-book"></i><span>Books</span></a>
+    <a href="#" class="nav-item" onclick="scrollToUsers()"><i class="fas fa-users"></i><span>Manage Users</span></a>
+    <a href="#" class="nav-item" onclick="scrollToBooks()"><i class="fas fa-book"></i><span>Manage Books</span></a>
     <a href="reports.html" class="nav-item"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
     <a href="backup.html" class="nav-item"><i class="fas fa-database"></i><span>Backup/Restore</span></a>
     <a href="#" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
@@ -316,6 +316,106 @@
     <div style="display:flex;gap:12px;margin-top:20px;">
       <button class="btn-secondary" style="flex:1;" onclick="closeBookModal()">Cancel</button>
       <button class="btn-primary" style="flex:1;" onclick="addBook()">Save Book</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal-overlay" id="editUserModal">
+  <div class="modal-box" style="width: 500px;">
+    <h3><i class="fas fa-user-edit" style="color:var(--primary-500);margin-right:8px;"></i> Edit User</h3>
+
+    <div class="grid-form">
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Full Name</label>
+        <input type="text" class="input" id="eunameInput" placeholder="John Doe">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Email</label>
+        <input type="email" class="input" id="euemailInput" placeholder="john@example.com">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Role</label>
+        <select class="input" id="euroleInput">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="librarian">Librarian</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Department</label>
+        <input type="text" class="input" id="eudeptInput" placeholder="Computer Science">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Enrollment Number</label>
+        <input type="text" class="input" id="euentrollmentInput" placeholder="CS2024001">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button class="btn-secondary" style="flex:1;" onclick="closeEditUserModal()">Cancel</button>
+      <button class="btn-primary" style="flex:1;" onclick="saveUserEdit()">Update User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Book Modal -->
+<div class="modal-overlay" id="editBookModal">
+  <div class="modal-box" style="width: 600px;">
+    <h3><i class="fas fa-book-edit" style="color:var(--primary-500);margin-right:8px;"></i> Edit Book</h3>
+
+    <div class="grid-form">
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Title</label>
+        <input type="text" class="input" id="ebtitleInput" placeholder="Book Title">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Author</label>
+        <input type="text" class="input" id="ebauthorInput" placeholder="Author Name">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">ISBN</label>
+        <input type="text" class="input" id="ebisbnInput" placeholder="ISBN Number">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Category</label>
+        <select class="input" id="ebcategoryInput">
+          <option value="Computer Science">Computer Science</option>
+          <option value="Programming">Programming</option>
+          <option value="Database">Database</option>
+          <option value="AI">AI</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="Web Development">Web Development</option>
+          <option value="Security">Security</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Total Copies</label>
+        <input type="number" class="input" id="ebcopiesInput" placeholder="1" min="1">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Location</label>
+        <input type="text" class="input" id="eblocationInput" placeholder="Shelf A1">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Published Year</label>
+        <input type="number" class="input" id="ebyearInput" placeholder="2023">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Publisher</label>
+        <input type="text" class="input" id="ebpublisherInput" placeholder="Publisher Name">
+      </div>
+    </div>
+
+    <div style="margin-top:15px;">
+      <label style="display:block;margin-bottom:6px;font-size:13px;font-weight:600;">Description</label>
+      <textarea class="input" id="ebdescriptionInput" placeholder="Book description" rows="3"></textarea>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button class="btn-secondary" style="flex:1;" onclick="closeEditBookModal()">Cancel</button>
+      <button class="btn-primary" style="flex:1;" onclick="saveBookEdit()">Update Book</button>
     </div>
   </div>
 </div>

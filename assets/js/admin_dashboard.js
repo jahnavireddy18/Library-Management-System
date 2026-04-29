@@ -271,6 +271,16 @@ function closeBookModal() {
   document.getElementById('addBookModal').classList.remove('active');
 }
 
+function closeEditUserModal() {
+  document.getElementById('editUserModal').classList.remove('active');
+  currentEditingUserId = null;
+}
+
+function closeEditBookModal() {
+  document.getElementById('editBookModal').classList.remove('active');
+  currentEditingBookId = null;
+}
+
 // Close on backdrop
 document.getElementById('addUserModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
@@ -280,11 +290,159 @@ document.getElementById('addBookModal').addEventListener('click', function(e) {
   if (e.target === this) closeBookModal();
 });
 
+document.getElementById('editUserModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditUserModal();
+});
+
+document.getElementById('editBookModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditBookModal();
+});
+
+// Scroll functions for sidebar navigation
+function scrollToUsers() {
+  const usersSection = document.getElementById('usersSection');
+  if (usersSection) {
+    usersSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function scrollToBooks() {
+  const booksSection = document.getElementById('booksSection');
+  if (booksSection) {
+    booksSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
 // Placeholder functions for view/edit (can be implemented later)
 function viewUser(userId) { alert('View user functionality coming soon'); }
-function editUser(userId) { alert('Edit user functionality coming soon'); }
+
+// Edit User Functions
+let currentEditingUserId = null;
+
+async function editUser(userId) {
+  try {
+    const response = await apiFetch(`/api/users/${userId}`);
+    if (response.ok) {
+      const user = await response.json();
+      currentEditingUserId = userId;
+      document.getElementById('eunameInput').value = user.name;
+      document.getElementById('euemailInput').value = user.email;
+      document.getElementById('euroleInput').value = user.role;
+      document.getElementById('eudeptInput').value = user.department || '';
+      document.getElementById('euentrollmentInput').value = user.enrollmentNumber || '';
+      document.getElementById('editUserModal').classList.add('active');
+    }
+  } catch (error) {
+    console.error('Error loading user for edit:', error);
+    alert('Failed to load user details');
+  }
+}
+
+async function saveUserEdit() {
+  if (!currentEditingUserId) return;
+
+  const userData = {
+    name: document.getElementById('eunameInput').value,
+    email: document.getElementById('euemailInput').value,
+    role: document.getElementById('euroleInput').value,
+    department: document.getElementById('eudeptInput').value,
+    enrollmentNumber: document.getElementById('euentrollmentInput').value
+  };
+
+  if (!userData.name || !userData.email) {
+    alert('Please fill all required fields');
+    return;
+  }
+
+  try {
+    const response = await apiFetch(`/api/users/${currentEditingUserId}`, {
+      method: 'PUT',
+      body: JSON.stringify(userData)
+    });
+
+    if (response.ok) {
+      alert('User updated successfully');
+      closeEditUserModal();
+      loadUsers();
+      currentEditingUserId = null;
+    } else {
+      const error = await response.json();
+      alert(error.msg || 'Failed to update user');
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    alert('Network error. Please try again.');
+  }
+}
+
 function viewBook(bookId) { alert('View book functionality coming soon'); }
-function editBook(bookId) { alert('Edit book functionality coming soon'); }
+
+// Edit Book Functions
+let currentEditingBookId = null;
+
+async function editBook(bookId) {
+  try {
+    const response = await apiFetch(`/api/books/${bookId}`);
+    if (response.ok) {
+      const book = await response.json();
+      currentEditingBookId = bookId;
+      document.getElementById('ebtitleInput').value = book.title;
+      document.getElementById('ebauthorInput').value = book.author;
+      document.getElementById('ebisbnInput').value = book.isbn;
+      document.getElementById('ebcategoryInput').value = book.category;
+      document.getElementById('ebcopiesInput').value = book.totalCopies;
+      document.getElementById('eblocationInput').value = book.location;
+      document.getElementById('ebyearInput').value = book.publishedYear || '';
+      document.getElementById('ebpublisherInput').value = book.publisher || '';
+      document.getElementById('ebdescriptionInput').value = book.description || '';
+      document.getElementById('editBookModal').classList.add('active');
+    }
+  } catch (error) {
+    console.error('Error loading book for edit:', error);
+    alert('Failed to load book details');
+  }
+}
+
+async function saveBookEdit() {
+  if (!currentEditingBookId) return;
+
+  const bookData = {
+    title: document.getElementById('ebtitleInput').value,
+    author: document.getElementById('ebauthorInput').value,
+    isbn: document.getElementById('ebisbnInput').value,
+    category: document.getElementById('ebcategoryInput').value,
+    description: document.getElementById('ebdescriptionInput').value,
+    totalCopies: parseInt(document.getElementById('ebcopiesInput').value),
+    location: document.getElementById('eblocationInput').value,
+    publishedYear: parseInt(document.getElementById('ebyearInput').value),
+    publisher: document.getElementById('ebpublisherInput').value
+  };
+
+  if (!bookData.title || !bookData.author || !bookData.isbn) {
+    alert('Please fill all required fields');
+    return;
+  }
+
+  try {
+    const response = await apiFetch(`/api/books/${currentEditingBookId}`, {
+      method: 'PUT',
+      body: JSON.stringify(bookData)
+    });
+
+    if (response.ok) {
+      alert('Book updated successfully');
+      closeEditBookModal();
+      loadBooks();
+      currentEditingBookId = null;
+    } else {
+      const error = await response.json();
+      alert(error.msg || 'Failed to update book');
+    }
+  } catch (error) {
+    console.error('Error updating book:', error);
+    alert('Network error. Please try again.');
+  }
+}
 
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('collapsed');
